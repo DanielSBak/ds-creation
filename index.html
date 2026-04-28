@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D'S Creation | Video Production</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Базові налаштування (Dark Theme) */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            scroll-behavior: smooth;
+        }
+
+        /* 1. Header & Logo Animation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            z-index: 1000;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: baseline;
+            white-space: nowrap;
+        }
+
+        .logo-hidden {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-width 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            display: inline-block;
+            color: #fff;
+        }
+
+        .logo-subtext {
+            font-weight: 300;
+            font-size: 14px;
+            margin-left: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        /* Анімація для ПК */
+        @media (min-width: 768px) {
+            .logo-container:hover .logo-hidden {
+                max-width: 100px; /* Відкриваємо слово */
+                opacity: 1;
+            }
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: #888; }
+
+        /* 2. Hero Section (Тимчасовий градієнт) */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #111111, #1a1a1a, #0a0a0a);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Загальні стилі секцій */
+        section {
+            padding: 100px 10%;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* 3. About / Vibe */
+        .about-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .about-image {
+            flex: 1;
+            height: 400px;
+            background-color: #222; /* Заглушка для фото */
+            background-image: url('ny-photo-placeholder.jpg'); /* Сюди вставимо твоє фото з Нью-Йорка */
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        /* 4. Packages */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .package-card {
+            background: #151515;
+            padding: 40px 30px;
+            border: 1px solid #222;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            text-align: center;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            border-color: #555;
+        }
+
+        .package-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .package-card p {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* 5. Portfolio - Coming Soon */
+        .portfolio {
+            text-align: center;
+            background: #0d0d0d;
+        }
+
+        .coming-soon-box {
+            padding: 80px 20px;
+            border: 1px dashed #333;
+            border-radius: 8px;
+            color: #555;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /* 6. Contact (Formspree) */
+        .contact form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 15px;
+            background: #151515;
+            border: 1px solid #333;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .contact button {
+            padding: 15px;
+            background: #fff;
+            color: #000;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+            border-radius: 4px;
+        }
+
+        .contact button:hover {
+            background: #ccc;
+        }
+
+        /* Мобільна адаптація */
+        @media (max-width: 768px) {
+            header { padding: 20px; flex-direction: column; gap: 15px; }
+            nav a { margin: 0 10px; }
+            .about-content { flex-direction: column; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container" id="main-logo">
+            <span class="logo-letter">D</span>
+            <span class="logo-hidden" id="logo-hidden-text">aniel</span>
+            <span class="logo-letter">'S</span>
+            <span class="logo-subtext">creation</span>
+        </div>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#packages">Packages</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Crafting Visual Stories</h1>
+            <p>High-end Video Production & Editing</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">The Vibe</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Video is more than just a beautiful picture. It’s a story, a dynamic flow, and raw emotion. With over 8 years of professional editing experience, I transform raw footage into a cinematic experience.</p>
+                <p>From fast-paced promos to deeply emotional wedding films, every single frame matters.</p>
+            </div>
+            <div class="about-image"></div>
+        </div>
+    </section>
+
+    <section id="packages">
+        <h2 class="section-title">Packages</h2>
+        <div class="packages-grid">
+            <div class="package-card" onclick="alert('Пізніше тут буде перехід на сторінку підписки!')">
+                <h3>Creator Retainer</h3>
+                <p>Monthly subscription for YouTubers and brands. 4 long videos + 15 Shorts/Reels.</p>
+            </div>
+            <div class="package-card" onclick="alert('Пізніше тут буде перехід на сторінку весіль!')">
+                <h3>The Cinematic Wedding</h3>
+                <p>Premium coverage for your big day. From Instagram highlights to a full documentary.</p>
+            </div>
+            <div class="package-card" onclick="alert('Пізніше тут буде перехід на сторінку пост-продакшену!')">
+                <h3>Post-Production Magic</h3>
+                <p>You shoot, I edit. High-end color grading, sound design, and pacing.</p>
+            </div>
+            <div class="package-card" onclick="alert('Пізніше тут буде перехід на сторінку комерції!')">
+                <h3>Commercial & Promo</h3>
+                <p>Dynamic promos for businesses, restaurants, and online stores.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <h2 class="section-title">Portfolio</h2>
+        <div class="coming-soon-box">
+            New Showreel Coming Soon
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2 class="section-title">Let's Talk</h2>
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="package" placeholder="Which package are you interested in?">
+            <textarea name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Перевіряємо, чи це мобільний пристрій (ширина екрану менша за 768px)
+            if (window.innerWidth < 768) {
+                const hiddenText = document.getElementById("logo-hidden-text");
+                
+                // Показуємо повне ім'я при завантаженні
+                hiddenText.style.maxWidth = "100px";
+                hiddenText.style.opacity = "1";
+
+                // Ховаємо через 3 секунди
+                setTimeout(() => {
+                    hiddenText.style.maxWidth = "0";
+                    hiddenText.style.opacity = "0";
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
