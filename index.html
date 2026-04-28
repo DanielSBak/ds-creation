@@ -132,14 +132,14 @@
         .about-image {
             flex: 1;
             height: 400px;
-            background-color: #222; /* Заглушка для фото */
-            background-image: url('ny-photo-placeholder.jpg'); /* Сюди вставимо твоє фото з Нью-Йорка */
-            background-size: cover;
+            background-color: transparent; /* Зробимо фон прозорим, щоб просвічувався колір сайту */
+            background-image: url('ny-photo-placeholder.png'); /* Ось тут змінили на .png */
+            background-size: contain; /* Змінили з cover на contain, щоб вирізане фото помістилося повністю */
+            background-repeat: no-repeat;
             background-position: center;
-            border-radius: 4px;
             filter: grayscale(100%) contrast(120%);
         }
-
+        
         /* 4. Packages */
         .packages-grid {
             display: grid;
