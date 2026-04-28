@@ -102,24 +102,42 @@
             letter-spacing: 2px;
         }
 
-        /* 3. About / Vibe Section */
-        section {
-            padding: 100px 10%;
+        /* 3. About / Vibe Section (Forbes Style) */
+        #about {
+            position: relative;
+            padding: 120px 10%;
+            overflow: hidden; /* Щоб фоновий текст не вилазив за краї */
+        }
+
+        /* Величезний водяний знак на фоні */
+        .editorial-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25vw;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.02); /* Дуже прозорий */
+            z-index: 0;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: -5px;
+            white-space: nowrap;
         }
 
         .about-content {
             display: flex;
-            gap: 60px;
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .about-text {
             flex: 1.2;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #ccc;
+            z-index: 2; /* Текст над фотографією */
+            position: relative;
         }
 
         .section-title {
@@ -131,22 +149,49 @@
             display: block;
         }
 
-        .about-image {
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        /* Журнальний акцент на першому абзаці */
+        .about-text p.lead-text {
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 400;
+            border-left: 3px solid #fff;
+            padding-left: 20px;
+            margin-left: -23px; /* Трохи висуваємо лінію вліво */
+        }
+
+        .about-image-wrapper {
             flex: 1;
-            height: 600px;
-            background-color: transparent;
-            background-image: url('ny-photo-placeholder.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: bottom center;
+            position: relative;
+            z-index: 1;
+            /* ОСЬ ТУТ МАГІЯ: фото "наїжджає" під текст */
+            margin-left: -100px; 
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-image-wrapper img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            max-height: 700px;
+            object-fit: contain;
+            object-position: bottom;
             filter: grayscale(100%) contrast(110%);
-            
-            /* Магія розчинення нижнього краю */
+            /* Магія розчинення залишається */
             -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
         }
 
         /* 4. Packages */
+        #packages { padding: 100px 10%; }
+        
         .packages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -183,9 +228,7 @@
         }
 
         /* 5. Portfolio Placeholder */
-        .portfolio {
-            text-align: center;
-        }
+        .portfolio { text-align: center; padding: 100px 10%; }
 
         .coming-soon-box {
             padding: 100px 20px;
@@ -198,9 +241,7 @@
         }
 
         /* 6. Contact Form */
-        .contact {
-            background: #0d0d0d;
-        }
+        .contact { background: #0d0d0d; padding: 100px 10%; }
 
         .contact form {
             display: flex;
@@ -223,9 +264,7 @@
             transition: border-color 0.3s;
         }
 
-        .contact input:focus, .contact textarea:focus {
-            border-color: #555;
-        }
+        .contact input:focus, .contact textarea:focus { border-color: #555; }
 
         .contact button {
             padding: 20px;
@@ -239,16 +278,22 @@
             transition: opacity 0.3s;
         }
 
-        .contact button:hover {
-            opacity: 0.8;
-        }
+        .contact button:hover { opacity: 0.8; }
 
         /* Mobile Adaptation */
         @media (max-width: 768px) {
             header { padding: 15px 20px; flex-direction: column; gap: 15px; }
             nav a { margin: 0 10px; font-size: 12px; }
-            .about-content { flex-direction: column; text-align: center; }
-            .about-image { width: 100%; height: 400px; order: -1; }
+            
+            .about-content { flex-direction: column; text-align: left; }
+            
+            /* На мобільному фото йде першим і немає нашарування */
+            .about-image-wrapper { margin-left: 0; width: 100%; order: -1; margin-bottom: 20px; }
+            .about-image-wrapper img { max-height: 450px; }
+            
+            .about-text p.lead-text { margin-left: 0; padding-left: 15px; }
+            .editorial-bg-text { font-size: 40vw; top: 30%; }
+            
             section { padding: 60px 5%; }
         }
     </style>
@@ -278,13 +323,18 @@
     </section>
 
     <section id="about">
+        <div class="editorial-bg-text">VIBE</div>
+        
         <div class="about-content">
             <div class="about-text">
                 <h2 class="section-title">The Vibe</h2>
-                <p>Video is more than just a beautiful picture. It’s a story, a dynamic flow, and raw emotion. With over 8 years of professional editing experience, I transform raw footage into a cinematic experience.</p>
-                <p>From fast-paced promos to deeply emotional wedding films, every single frame matters. I don't just edit; I create a visual rhythm that sticks.</p>
+                <p class="lead-text">Video is more than just a beautiful picture. It’s a story, a dynamic flow, and raw emotion.</p>
+                <p>With over 8 years of professional editing experience, I transform raw footage into a cinematic experience. From fast-paced promos to deeply emotional wedding films, every single frame matters. I don't just edit; I create a visual rhythm that sticks.</p>
             </div>
-            <div class="about-image"></div>
+            
+            <div class="about-image-wrapper">
+                <img src="ny-photo-placeholder.png" alt="Daniel's Vibe">
+            </div>
         </div>
     </section>
 
