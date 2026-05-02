@@ -6,23 +6,44 @@
     <title>D'S Creation | Video Production</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        /* Підключення твого кастомного шрифту */
+        @font-face {
+            font-family: 'NeueHaasGrot';
+            src: url('neuehaasgrottext-75bold-trial.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
         /* Base Settings */
         body, html {
             margin: 0;
             padding: 0;
             font-family: 'Montserrat', sans-serif;
-            background-color: #050505; /* Зробили фон ще глибшим для контрасту зі склом */
+            background-color: #050505; 
             color: #ffffff;
             scroll-behavior: smooth;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* 1. Header & Logo Animation (Glass Effect) */
+        /* КІНЕМАТОГРАФІЧНА ЗЕРНИСТІСТЬ (Film Grain) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            /* Генерація шуму через SVG */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05; /* Ледь помітний ефект */
+            pointer-events: none; /* Щоб не заважало клікати */
+            z-index: 9999;
+        }
+
+        /* 1. Header & Logo Animation */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(5, 5, 5, 0.5);
+            background: rgba(5, 5, 5, 0.4);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -35,28 +56,45 @@
         }
 
         .logo-container {
-            font-size: 24px;
-            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: baseline;
             white-space: nowrap;
+            /* Градієнтна тінь знизу для логотипу */
+            text-shadow: 0px 15px 25px rgba(0, 0, 0, 0.9), 0px 5px 10px rgba(255, 255, 255, 0.1);
+            transition: text-shadow 0.3s ease;
+        }
+
+        .logo-container:hover {
+            text-shadow: 0px 20px 30px rgba(0, 0, 0, 1), 0px 8px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Застосовуємо Neue Haas Grotesk до імені */
+        .logo-letter {
+            font-family: 'NeueHaasGrot', sans-serif;
+            font-size: 26px;
+            letter-spacing: 1px;
         }
 
         .logo-hidden {
+            font-family: 'NeueHaasGrot', sans-serif;
+            font-size: 26px;
+            letter-spacing: 1px;
             max-width: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-width 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            transition: max-width 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease-in-out;
             display: inline-block;
             color: #fff;
         }
 
+        /* Слово CREATION залишаємо в Montserrat */
         .logo-subtext {
+            font-family: 'Montserrat', sans-serif;
             font-weight: 300;
-            font-size: 14px;
+            font-size: 13px;
             margin-left: 8px;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             color: #888;
         }
@@ -197,7 +235,6 @@
             overflow: hidden;
         }
 
-        /* Розмиті світлові плями на фоні для заломлення скла */
         .glass-glow {
             position: absolute;
             width: 400px;
@@ -217,18 +254,17 @@
             gap: 30px;
             margin-top: 50px;
             position: relative;
-            z-index: 1; /* Картки поверх світла */
+            z-index: 1; 
         }
 
-        /* МАГІЯ СКЛА (Glassmorphism) */
         .package-card {
-            background: rgba(255, 255, 255, 0.03); /* Напівпрозорий білий */
-            backdrop-filter: blur(16px); /* Розмиття фону під карткою */
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(16px); 
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Тонка світла рамка */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Тінь для об'єму */
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
             padding: 50px 30px;
-            border-radius: 12px; /* Скло виглядає краще з трохи круглішими кутами */
+            border-radius: 12px; 
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-align: center;
@@ -236,7 +272,7 @@
 
         .package-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.06); /* Стає світлішим при наведенні */
+            background: rgba(255, 255, 255, 0.06); 
             border-color: rgba(255, 255, 255, 0.2);
             box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5);
         }
@@ -254,7 +290,7 @@
             line-height: 1.6;
         }
 
-        /* 5. Portfolio Placeholder (Glass Style) */
+        /* 5. Portfolio Placeholder */
         .portfolio { text-align: center; padding: 100px 10%; position: relative; }
 
         .coming-soon-box {
@@ -272,7 +308,7 @@
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
-        /* 6. Contact Form (Glass Inputs) */
+        /* 6. Contact Form */
         .contact { 
             position: relative;
             background: #050505; 
@@ -292,7 +328,6 @@
         .contact input, .contact textarea {
             width: 100%;
             padding: 18px;
-            /* Скляні поля вводу */
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -341,7 +376,7 @@
             .editorial-bg-text { font-size: 40vw; top: 30%; }
             
             section { padding: 60px 5%; }
-            .glass-glow { display: none; /* Відключаємо світіння на мобільних для кращої продуктивності */ }
+            .glass-glow { display: none; }
         }
     </style>
 </head>
