@@ -26,15 +26,15 @@
             position: relative;
         }
 
-        /* КІНЕМАТОГРАФІЧНА ЗЕРНИСТІСТЬ (Film Grain) */
+        /* КІНЕМАТОГРАФІЧНА ЗЕРНИСТІСТЬ (Дуже дрібна і м'яка) */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Генерація шуму через SVG */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.05; /* Ледь помітний ефект */
-            pointer-events: none; /* Щоб не заважало клікати */
+            /* Збільшив frequency для дрібнішого зерна */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.025; /* Зробив значно прозорішим */
+            pointer-events: none; 
             z-index: 9999;
         }
 
@@ -46,7 +46,7 @@
             background: rgba(5, 5, 5, 0.4);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             padding: 20px 50px;
             z-index: 1000;
             box-sizing: border-box;
@@ -60,35 +60,31 @@
             display: flex;
             align-items: baseline;
             white-space: nowrap;
-            /* Градієнтна тінь знизу для логотипу */
-            text-shadow: 0px 15px 25px rgba(0, 0, 0, 0.9), 0px 5px 10px rgba(255, 255, 255, 0.1);
-            transition: text-shadow 0.3s ease;
+            /* М'яка тінь ПІД усім логотипом для об'єму */
+            filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.8));
         }
 
-        .logo-container:hover {
-            text-shadow: 0px 20px 30px rgba(0, 0, 0, 1), 0px 8px 15px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Застосовуємо Neue Haas Grotesk до імені */
-        .logo-letter {
+        /* Градієнтна заливка (Тінь ЗНИЗУ на самих буквах) */
+        .logo-letter, .logo-hidden {
             font-family: 'NeueHaasGrot', sans-serif;
             font-size: 26px;
             letter-spacing: 1px;
+            background: linear-gradient(to bottom, #ffffff 30%, #555555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .logo-hidden {
-            font-family: 'NeueHaasGrot', sans-serif;
-            font-size: 26px;
-            letter-spacing: 1px;
             max-width: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-width 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease-in-out;
+            /* ДУЖЕ плавна кінематографічна анімація */
+            transition: max-width 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease-in-out;
             display: inline-block;
-            color: #fff;
+            vertical-align: bottom;
         }
 
-        /* Слово CREATION залишаємо в Montserrat */
+        /* Слово CREATION */
         .logo-subtext {
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
@@ -96,12 +92,15 @@
             margin-left: 8px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: #888;
+            /* Теж легкий градієнт для гармонії */
+            background: linear-gradient(to bottom, #aaaaaa 0%, #444444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         @media (min-width: 768px) {
             .logo-container:hover .logo-hidden {
-                max-width: 100px;
+                max-width: 75px; /* Оптимальна ширина для "aniel" */
                 opacity: 1;
             }
         }
@@ -118,7 +117,7 @@
 
         nav a:hover { 
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         /* 2. Hero Section */
@@ -145,7 +144,7 @@
             letter-spacing: 2px;
         }
 
-        /* 3. About / Vibe Section (Forbes Style) */
+        /* 3. About / Vibe Section */
         #about {
             position: relative;
             padding: 120px 10%;
@@ -228,7 +227,7 @@
             mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
         }
 
-        /* 4. Packages (LIQUID GLASS EFFECT) */
+        /* 4. Packages (LIQUID GLASS) */
         #packages { 
             position: relative;
             padding: 100px 10%; 
@@ -239,14 +238,14 @@
             position: absolute;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
             border-radius: 50%;
             filter: blur(50px);
             z-index: 0;
             pointer-events: none;
         }
         .glow-1 { top: 10%; left: 10%; }
-        .glow-2 { bottom: 10%; right: 10%; background: radial-gradient(circle, rgba(200, 200, 255, 0.05) 0%, transparent 70%); }
+        .glow-2 { bottom: 10%; right: 10%; background: radial-gradient(circle, rgba(200, 200, 255, 0.04) 0%, transparent 70%); }
 
         .packages-grid {
             display: grid;
@@ -261,7 +260,7 @@
             background: rgba(255, 255, 255, 0.03); 
             backdrop-filter: blur(16px); 
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
             padding: 50px 30px;
             border-radius: 12px; 
@@ -272,8 +271,8 @@
 
         .package-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.06); 
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05); 
+            border-color: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5);
         }
 
@@ -290,14 +289,14 @@
             line-height: 1.6;
         }
 
-        /* 5. Portfolio Placeholder */
+        /* 5. Portfolio */
         .portfolio { text-align: center; padding: 100px 10%; position: relative; }
 
         .coming-soon-box {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             padding: 80px 20px;
             border-radius: 12px;
             color: #666;
@@ -305,7 +304,6 @@
             letter-spacing: 8px;
             text-transform: uppercase;
             margin-top: 40px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
         /* 6. Contact Form */
@@ -331,7 +329,7 @@
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #fff;
             font-family: inherit;
             border-radius: 8px;
@@ -341,7 +339,7 @@
         }
 
         .contact input:focus, .contact textarea:focus { 
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
             background: rgba(255, 255, 255, 0.05);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
         }
