@@ -26,16 +26,32 @@
             position: relative;
         }
 
-        /* КІНЕМАТОГРАФІЧНА ЗЕРНИСТІСТЬ (Дуже дрібна і м'яка) */
-        body::before {
+        /* ЖИВИЙ ЖОРСТКИЙ ГРЕЙН (Animated Film Grain) */
+        body::after {
             content: "";
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Збільшив frequency для дрібнішого зерна */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.025; /* Зробив значно прозорішим */
+            /* Робимо полотно величезним, щоб мати простір для "стрибків" */
+            top: -100%; left: -100%; width: 300vw; height: 300vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.12; /* Достатньо жорсткий, щоб кидатися в очі, але не перекривати контент */
             pointer-events: none; 
             z-index: 9999;
+            /* Анімація, яка імітує зміну Seed 10 разів на секунду */
+            animation: liveGrain 0.8s steps(8) infinite;
+        }
+
+        @keyframes liveGrain {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            20% { transform: translate(-15%, 5%); }
+            30% { transform: translate(7%, -25%); }
+            40% { transform: translate(-5%, 25%); }
+            50% { transform: translate(-15%, 10%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(3%, 35%); }
+            90% { transform: translate(-10%, 10%); }
+            100% { transform: translate(0, 0); }
         }
 
         /* 1. Header & Logo Animation */
@@ -60,11 +76,9 @@
             display: flex;
             align-items: baseline;
             white-space: nowrap;
-            /* М'яка тінь ПІД усім логотипом для об'єму */
             filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.8));
         }
 
-        /* Градієнтна заливка (Тінь ЗНИЗУ на самих буквах) */
         .logo-letter, .logo-hidden {
             font-family: 'NeueHaasGrot', sans-serif;
             font-size: 26px;
@@ -78,13 +92,11 @@
             max-width: 0;
             opacity: 0;
             overflow: hidden;
-            /* ДУЖЕ плавна кінематографічна анімація */
             transition: max-width 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease-in-out;
             display: inline-block;
             vertical-align: bottom;
         }
 
-        /* Слово CREATION */
         .logo-subtext {
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
@@ -92,7 +104,6 @@
             margin-left: 8px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            /* Теж легкий градієнт для гармонії */
             background: linear-gradient(to bottom, #aaaaaa 0%, #444444 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -100,7 +111,7 @@
 
         @media (min-width: 768px) {
             .logo-container:hover .logo-hidden {
-                max-width: 75px; /* Оптимальна ширина для "aniel" */
+                max-width: 75px; 
                 opacity: 1;
             }
         }
@@ -120,14 +131,43 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
-        /* 2. Hero Section */
+        /* 2. Hero Section (Із Відео) */
         .hero {
             height: 100vh;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #151515 0%, #050505 100%);
             text-align: center;
+            overflow: hidden;
+            background-color: #050505; /* Заглушка, поки відео вантажиться */
+        }
+
+        /* Відео на повний екран */
+        #hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ідеально масштабує відео без спотворень */
+            z-index: 0;
+        }
+
+        /* Кінематографічне затемнення (Overlay) для читабельності тексту */
+        .hero-overlay {
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.85) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Текст над відео та затемненням */
         }
 
         .hero h1 {
@@ -135,13 +175,15 @@
             margin-bottom: 10px;
             letter-spacing: -1px;
             text-transform: uppercase;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .hero p {
             font-size: 1.2rem;
-            color: #888;
+            color: #ccc;
             font-weight: 300;
             letter-spacing: 2px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.5);
         }
 
         /* 3. About / Vibe Section */
@@ -396,7 +438,12 @@
     </header>
 
     <section class="hero">
-        <div>
+        <video autoplay loop muted playsinline id="hero-video">
+            <source src="hero-bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
             <h1>Crafting Visual Stories</h1>
             <p>High-end Video Production & Editing</p>
         </div>
