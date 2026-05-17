@@ -26,34 +26,6 @@
             position: relative;
         }
 
-        /* ЖИВИЙ ЖОРСТКИЙ ГРЕЙН (Animated Film Grain) */
-        body::after {
-            content: "";
-            position: fixed;
-            /* Робимо полотно величезним, щоб мати простір для "стрибків" */
-            top: -100%; left: -100%; width: 300vw; height: 300vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.12; /* Достатньо жорсткий, щоб кидатися в очі, але не перекривати контент */
-            pointer-events: none; 
-            z-index: 9999;
-            /* Анімація, яка імітує зміну Seed 10 разів на секунду */
-            animation: liveGrain 0.8s steps(8) infinite;
-        }
-
-        @keyframes liveGrain {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -10%); }
-            20% { transform: translate(-15%, 5%); }
-            30% { transform: translate(7%, -25%); }
-            40% { transform: translate(-5%, 25%); }
-            50% { transform: translate(-15%, 10%); }
-            60% { transform: translate(15%, 0%); }
-            70% { transform: translate(0%, 15%); }
-            80% { transform: translate(3%, 35%); }
-            90% { transform: translate(-10%, 10%); }
-            100% { transform: translate(0, 0); }
-        }
-
         /* 1. Header & Logo Animation */
         header {
             position: fixed;
@@ -131,7 +103,7 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
-        /* 2. Hero Section (Із Відео) */
+        /* 2. Hero Section */
         .hero {
             height: 100vh;
             position: relative;
@@ -140,34 +112,51 @@
             justify-content: center;
             text-align: center;
             overflow: hidden;
-            background-color: #050505; /* Заглушка, поки відео вантажиться */
+            background-color: #050505; 
         }
 
-        /* Відео на повний екран */
         #hero-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ідеально масштабує відео без спотворень */
+            object-fit: cover;
             z-index: 0;
         }
 
-        /* Кінематографічне затемнення (Overlay) для читабельності тексту */
         .hero-overlay {
             position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.85) 100%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.85) 100%);
             z-index: 1;
+        }
+
+        /* МІКРО-ГРЕН ТІЛЬКИ НАД ВІДЕО */
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: -100%; left: -100%; width: 300vw; height: 300vh;
+            /* baseFrequency='3.5' робить зерно супер дрібним */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.06; /* Ніжний ефект, який не перекриває картинку */
+            pointer-events: none; 
+            z-index: 2; /* Вище ніж відео та оверлей, але нижче ніж текст */
+            animation: liveGrain 0.5s steps(6) infinite;
+        }
+
+        @keyframes liveGrain {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-3%, -5%); }
+            40% { transform: translate(-8%, 3%); }
+            60% { transform: translate(4%, -12%); }
+            80% { transform: translate(-2%, 8%); }
+            100% { transform: translate(0, 0); }
         }
 
         .hero-content {
             position: relative;
-            z-index: 2; /* Текст над відео та затемненням */
+            z-index: 3; /* Текст стоїть НАД живим зерном, тому він ідеально чіткий */
         }
 
         .hero h1 {
@@ -175,7 +164,7 @@
             margin-bottom: 10px;
             letter-spacing: -1px;
             text-transform: uppercase;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.6);
         }
 
         .hero p {
@@ -183,7 +172,7 @@
             color: #ccc;
             font-weight: 300;
             letter-spacing: 2px;
-            text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            text-shadow: 0 3px 10px rgba(0,0,0,0.6);
         }
 
         /* 3. About / Vibe Section */
